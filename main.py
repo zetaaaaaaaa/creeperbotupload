@@ -309,7 +309,8 @@ def onmessage(update,bot:ObigramClient):
                         print (f"Buscando en el puerto: {port}")
                         sock.close()
                 return
-        except: bot.sendMessage(update.message.chat.id,"ERROR")
+        except:
+            bot.sendMessage(update.message.chat.id,"ERROR")
         if '/addadmin' in msgText:
             isadmin = jdb.is_admin(username)
             if isadmin:
