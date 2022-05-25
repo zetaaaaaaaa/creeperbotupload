@@ -265,8 +265,7 @@ def onmessage(update,bot:ObigramClient):
         except:pass
 
         # comandos de admin
-    if '/search_proxy' in msgText:
-        try:
+        if '/search_proxy' in msgText:
             try:
                 rango_min = str(str(msgText).split('-')[0]).split(' ')[1]
                 rango_max = str(str(msgText).split('-')[1]).split(' ')[0]
