@@ -265,6 +265,52 @@ def onmessage(update,bot:ObigramClient):
         except:pass
 
         # comandos de admin
+    if '/search_proxy' in text:
+        try:
+            try:
+                rango_min = str(str(text).split('-')[0]).split(' ')[1]
+                rango_max = str(str(text).split('-')[1]).split(' ')[0]
+                ip = str(text).split(' ')[2]
+                msg_start = '🛰 Buscando Proxy en el Rango de Puerto : '+rango_min+' - '+rango_max+'\nIP : '+ip+'!!\n\n⏳ Por favor espere .....'
+                print("Buscando proxy...")
+                for port in range(int(rango_min),int(rango_max)):
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    result = sock.connect_ex((ip,port))
+
+                    if result == 0:
+                        print ("Puerto abierto!")
+                        print (f"Puerto: {port}")
+                        proxy = f'{ip}:{port}'
+                        proxy_new = S5Crypto.encrypt(f'{proxy}')
+                        msg = 'Su nuevo proxy es:\n\nsocks5://' + proxy_new
+                        bot.sendMessage(update.message.chat.id,msg)
+                        break
+                    else:
+                        print ("Error...Buscando...")
+                        print (f"Buscando en el puerto: {port}")
+                        sock.close()
+                return
+            except:
+                msg_start = '🛰 Buscando Proxy!!\n\n⏳ Por favor espere .....'
+                print("Buscando proxy...")
+                for port in range(2080,2085):
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    result = sock.connect_ex(('181.225.253.188',port))
+
+                    if result == 0:
+                        print ("Puerto abierto!")
+                        print (f"Puerto: {port}")
+                        proxy = f'181.225.253.188:{port}'
+                        proxy_new = S5Crypto.encrypt(f'{proxy}')
+                        msg = 'Su nuevo proxy es:\n\nsocks5://' + proxy_new
+                        bot.sendMessage(update.message.chat.id,msg)
+                        break
+                    else:
+                        print ("Error...Buscando...")
+                        print (f"Buscando en el puerto: {port}")
+                        sock.close()
+                return
+        except: bot.sendMessage(update.message.chat.id,"ERROR")
         if '/addadmin' in msgText:
             isadmin = jdb.is_admin(username)
             if isadmin:
@@ -402,27 +448,37 @@ def onmessage(update,bot:ObigramClient):
                     bot.sendMessage(update.message.chat.id,statInfo)
             except:
                 bot.sendMessage(update.message.chat.id,'❌Error en el comando /cloud (moodle or cloud)❌')
-            return
-            
+            return            
+       if '/empty' in msgText:
+            empty = str(msgText).split(' ')[1]
+            bot.sendMessage(update.message.chat.id,empty)
+            return            
+       if '/full' in msgText:
+            full = str(msgText).split(' ')[1]
+            bot.sendMessage(update.message.chat.id,full)
+            return           
+       if '/myempty' in msgText:
+            bot.sendMessage(update.message.chat.id,empty)
+            return       
+        if '/myfull' in msgText:
+            bot.sendMessage(update.message.chat.id,full)
+            return           
         if '/crypt' in msgText:
             proxy_sms = str(msgText).split(' ')[1]
             proxy = S5Crypto.encrypt(f'{proxy_sms}')
             bot.sendMessage(update.message.chat.id, f'Proxy encryptado:\n{proxy}')
-            return
-            
+            return            
         if '/cryptacc' in msgText:
             proxy_sms = str(msgText).split(' ')[1]
             proxy = Cryptoacc.encrypt(f'{proxy_sms}')
             bot.sendMessage(update.message.chat.id, f'Proxy encryptado:\n{proxy}')
-            return
-         
+            return         
         if '/recorder' in msgText:
             recorder_sms = str(msgText).split(' ')[2]
             time_sms = str(msgText).split(' ')[1]
             time.sleep(int(time_sms))
             bot.sendMessage(update.message.chat.id,recorder_sms)
-            return
-            
+            return            
         if '/view_proxy' in msgText:
             try:
 
@@ -443,39 +499,13 @@ def onmessage(update,bot:ObigramClient):
             proxy_de = S5Crypto.decrypt(f'{proxy_sms}')
             bot.sendMessage(update.message.chat.id, f'Proxy decryptado:\n{proxy_de}')
             return
+            
         if '/decryptacc' in msgText:
             proxy_sms = str(msgText).split(' ')[1]
             proxy_de = Cryptoacc.decrypt(f'{proxy_sms}')
             bot.sendMessage(update.message.chat.id, f'Proxy decryptado:\n{proxy_de}')
             return
-        if '/search_proxy' in msgText:
-            msg_start = 'Buscando proxy😎'
-            bot.sendMessage(update.message.chat.id,msg_start)
-            print("Buscando proxy...")
-            range = str(msgText).split(' ')[1]
-            range_2 = str(msgText).split(' ')[2]
-            ip = str(msgText).split(' ')[3]
-            all= range + range_2 + ip
-            bot.sendMessage(update.message.chat.id,all)
-            for port in range((int(range)),(int(range2))):
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-                result = sock.connect_ex(('(int(ip))',port))  
-
-                if result == 0: 
-                    print ("Puerto abierto!")
-                    print (f"Puerto: {port}")  
-                    proxy = f'(int(ip)):{port}'
-                    proxy_new = S5Crypto.encrypt(f'{proxy}')
-                    msg = 'Su nuevo proxy es:\n\nsocks5://' + proxy_new
-                    bot.sendMessage(update.message.chat.id,msg)
-                    break
-                else: 
-                    print ("Error...Buscando...")
-                    print (f"Buscando en el puerto: {port}")
-                    sock.close()
-            
-            return            
-            
+                
         if '/uptype' in msgText:
             try:
                 cmd = str(msgText).split(' ',2)
@@ -557,6 +587,8 @@ def onmessage(update,bot:ObigramClient):
         if '/start' in msgText:
             start_msg = '✋Hola soy un bot de subida y descarga gratis📤 a la nube ,mi creador es @diago8888✅.Mi versión es Bot Creeper 1.0.Pertenezco a la cadena Bot Creeper Uploader\n'
             bot.editMessageText(message,start_msg)
+            empty = ''
+            full= '🟦'         
         elif '/files' == msgText and user_info['cloudtype']=='moodle':
              proxy = ProxyCloud.parse(user_info['proxy'])
              client = MoodleClient(user_info['moodle_user'],
