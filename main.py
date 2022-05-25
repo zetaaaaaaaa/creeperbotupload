@@ -265,52 +265,6 @@ def onmessage(update,bot:ObigramClient):
         except:pass
 
         # comandos de admin
-        if '/search_proxy' in msgText:
-            try:
-                rango_min = str(str(msgText).split('-')[0]).split(' ')[1]
-                rango_max = str(str(msgText).split('-')[1]).split(' ')[0]
-                ip = str(msgText).split(' ')[2]
-                msg_start = '🛰 Buscando Proxy en el Rango de Puerto : '+rango_min+' - '+rango_max+'\nIP : '+ip+'!!\n\n⏳ Por favor espere .....'
-                print("Buscando proxy...")
-                for port in range(int(rango_min),int(rango_max)):
-                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    result = sock.connect_ex((ip,port))
-
-                    if result == 0:
-                        print ("Puerto abierto!")
-                        print (f"Puerto: {port}")
-                        proxy = f'{ip}:{port}'
-                        proxy_new = S5Crypto.encrypt(f'{proxy}')
-                        msg = 'Su nuevo proxy es:\n\nsocks5://' + proxy_new
-                        bot.sendMessage(update.message.chat.id,msg)
-                        break
-                    else:
-                        print ("Error...Buscando...")
-                        print (f"Buscando en el puerto: {port}")
-                        sock.close()
-                return
-            except:
-                msg_start = '🛰 Buscando Proxy!!\n\n⏳ Por favor espere .....'
-                print("Buscando proxy...")
-                for port in range(2080,2085):
-                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    result = sock.connect_ex(('181.225.253.188',port))
-
-                    if result == 0:
-                        print ("Puerto abierto!")
-                        print (f"Puerto: {port}")
-                        proxy = f'181.225.253.188:{port}'
-                        proxy_new = S5Crypto.encrypt(f'{proxy}')
-                        msg = 'Su nuevo proxy es:\n\nsocks5://' + proxy_new
-                        bot.sendMessage(update.message.chat.id,msg)
-                        break
-                    else:
-                        print ("Error...Buscando...")
-                        print (f"Buscando en el puerto: {port}")
-                        sock.close()
-                return
-        except:
-            bot.sendMessage(update.message.chat.id,"ERROR")
         if '/addadmin' in msgText:
             isadmin = jdb.is_admin(username)
             if isadmin:
