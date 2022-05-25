@@ -19,7 +19,7 @@ import ProxyCloud
 import socket
 import tlmedia
 import S5Crypto
-import Cryptoacc
+
 
 
 def downloadFile(downloader,filename,currentBits,totalBits,speed,time,args):
@@ -389,6 +389,30 @@ def onmessage(update,bot:ObigramClient):
             except:
                 bot.sendMessage(update.message.chat.id,'❌Error en el comando /repo id❌')
             return
+        if '/tokenize_on' in msgText:
+            try:
+                getUser = user_info
+                if getUser:
+                    getUser['tokenize'] = 1
+                    jdb.save_data_user(username,getUser)
+                    jdb.save()
+                    statInfo = infos.createStat(username,getUser,jdb.is_admin(username))
+                    bot.sendMessage(update.message.chat.id,statInfo)
+            except:
+                bot.sendMessage(update.message.chat.id,'❌Error en el comando /tokenize state❌')
+            return
+        if '/tokenize_off' in msgText:
+            try:
+                getUser = user_info
+                if getUser:
+                    getUser['tokenize'] = 0
+                    jdb.save_data_user(username,getUser)
+                    jdb.save()
+                    statInfo = infos.createStat(username,getUser,jdb.is_admin(username))
+                    bot.sendMessage(update.message.chat.id,statInfo)
+            except:
+                bot.sendMessage(update.message.chat.id,'❌Error en el comando /tokenize state❌')
+            return
         if '/cloud' in msgText:
             try:
                 cmd = str(msgText).split(' ',2)
@@ -402,50 +426,12 @@ def onmessage(update,bot:ObigramClient):
                     bot.sendMessage(update.message.chat.id,statInfo)
             except:
                 bot.sendMessage(update.message.chat.id,'❌Error en el comando /cloud (moodle or cloud)❌')
-            return            
-       if '/empty' in msgText:
-            empty = str(msgText).split(' ')[1]
-            bot.sendMessage(update.message.chat.id,empty)
-            return            
-       if '/full' in msgText:
-            full = str(msgText).split(' ')[1]
-            bot.sendMessage(update.message.chat.id,full)
-            return           
-       if '/myempty' in msgText:
-            bot.sendMessage(update.message.chat.id,empty)
-            return       
-        if '/myfull' in msgText:
-            bot.sendMessage(update.message.chat.id,full)
-            return           
+            return
+            
         if '/crypt' in msgText:
             proxy_sms = str(msgText).split(' ')[1]
             proxy = S5Crypto.encrypt(f'{proxy_sms}')
             bot.sendMessage(update.message.chat.id, f'Proxy encryptado:\n{proxy}')
-            return            
-        if '/cryptacc' in msgText:
-            proxy_sms = str(msgText).split(' ')[1]
-            proxy = Cryptoacc.encrypt(f'{proxy_sms}')
-            bot.sendMessage(update.message.chat.id, f'Proxy encryptado:\n{proxy}')
-            return         
-        if '/recorder' in msgText:
-            recorder_sms = str(msgText).split(' ')[2]
-            time_sms = str(msgText).split(' ')[1]
-            time.sleep(int(time_sms))
-            bot.sendMessage(update.message.chat.id,recorder_sms)
-            return            
-        if '/view_proxy' in msgText:
-            try:
-
-
-                getUser = user_info
-
-                if getUser:
-                    proxy = getUser['proxy']
-                    bot.sendMessage(update.message.chat.id,proxy)
-            except:
-                if user_info:
-                    proxy = user_info['proxy']
-                    bot.sendMessage(update.message.chat.id,proxy)
             return
             
         if '/decrypt' in msgText:
@@ -454,12 +440,6 @@ def onmessage(update,bot:ObigramClient):
             bot.sendMessage(update.message.chat.id, f'Proxy decryptado:\n{proxy_de}')
             return
             
-        if '/decryptacc' in msgText:
-            proxy_sms = str(msgText).split(' ')[1]
-            proxy_de = Cryptoacc.decrypt(f'{proxy_sms}')
-            bot.sendMessage(update.message.chat.id, f'Proxy decryptado:\n{proxy_de}')
-            return
-                
         if '/uptype' in msgText:
             try:
                 cmd = str(msgText).split(' ',2)
@@ -499,12 +479,12 @@ def onmessage(update,bot:ObigramClient):
                     jdb.save_data_user(username,getUser)
                     jdb.save()
                     statInfo = infos.createStat(username,getUser,jdb.is_admin(username))
-                    bot.sendMessage(update.message.chat.id,'✅Proxy Desactivado✅')
+                    bot.sendMessage(update.message.chat.id,'💾Configuración guardada con éxito✅')
             except:
                 if user_info:
                     user_info['proxy'] = ''
                     statInfo = infos.createStat(username,user_info,jdb.is_admin(username))
-                    bot.sendMessage(update.message.chat.id,'✅ Proxy Desactivado✅')
+                    bot.sendMessage(update.message.chat.id,'💾Configuración guardada con éxito✅')
             return
         if '/dir' in msgText:
             try:
@@ -539,10 +519,8 @@ def onmessage(update,bot:ObigramClient):
         thread.store('msg',message)
 
         if '/start' in msgText:
-            start_msg = '✋Hola soy un bot de subida y descarga gratis📤 a la nube ,mi creador es @diago8888✅.Mi versión es Bot Creeper 1.0.Pertenezco a la cadena Bot Creeper Uploader\n'
+            start_msg = 'Hola soy un bot de subida y descarga gratis a la nube ,mi creador es @diago8888.Mi versión es Bot Creeper 1.0\n'
             bot.editMessageText(message,start_msg)
-            empty = ''
-            full= '🟦'         
         elif '/files' == msgText and user_info['cloudtype']=='moodle':
              proxy = ProxyCloud.parse(user_info['proxy'])
              client = MoodleClient(user_info['moodle_user'],

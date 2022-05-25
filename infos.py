@@ -12,12 +12,12 @@ def text_progres(index,max):
 		porcent = round(porcent)
 		make_text = ''
 		index_make = 1
-		make_text += '\n'
+		make_text += '\n['
 		while(index_make<21):
-			if porcent >= index_make * 5: make_text+=fill
-			else: make_text+=empty
+			if porcent >= index_make * 5: make_text+='●'
+			else: make_text+='○'
 			index_make+=1
-		make_text += '\n'
+		make_text += ']\n'
 		return make_text
 	except Exception as ex:
 			return ''
@@ -30,59 +30,65 @@ def porcent(index,max):
 
 def createDownloading(filename,totalBits,currentBits,speed,time,tid=''):
     msg = '📥Descargando... \n\n'
-    msg+= '📱Nombre: ' + str(filename)+'\n'
-    msg+= '💾Tamaño Total: ' + str(sizeof_fmt(totalBits))+'\n'
-    msg+= '📥Descargado: ' + str(sizeof_fmt(currentBits))+'\n'
-    msg+= '⚡Velocidad: ' + str(sizeof_fmt(speed))+'/s\n'
-    msg+= '🕛Tiempo: ' + str(datetime.timedelta(seconds=int(time))) +'\n\n'
+    msg+= '🔖Nombre: ' + str(filename)+'\n'
+    msg+= '🗂Tamaño Total: ' + str(sizeof_fmt(totalBits))+'\n'
+    msg+= '🗂Descargado: ' + str(sizeof_fmt(currentBits))+'\n'
+    msg+= '📶Velocidad: ' + str(sizeof_fmt(speed))+'/s\n'
+    msg+= '🕐Tiempo: ' + str(datetime.timedelta(seconds=int(time))) +'\n\n'
 
     msg = '📡 Descargando Archivo....\n\n'
-    msg += '📱Nombre: '+filename+'\n'
+    msg += '➤ Archivo: '+filename+'\n'
     msg += text_progres(currentBits,totalBits)+'\n'
-    msg += '💯Porcentaje: '+str(porcent(currentBits,totalBits))+'%\n\n'
-    msg += '💾Total: '+sizeof_fmt(totalBits)+'\n\n'
-    msg += '📥Descargado: '+sizeof_fmt(currentBits)+'\n\n'
-    msg += '⚡Velocidad: '+sizeof_fmt(speed)+'/s\n\n'
-    msg += '🕛Tiempo de Descarga: '+str(datetime.timedelta(seconds=int(time)))+'s\n\n'
+    msg += '➤ Porcentaje: '+str(porcent(currentBits,totalBits))+'%\n\n'
+    msg += '➤ Total: '+sizeof_fmt(totalBits)+'\n\n'
+    msg += '➤ Descargado: '+sizeof_fmt(currentBits)+'\n\n'
+    msg += '➤ Velocidad: '+sizeof_fmt(speed)+'/s\n\n'
+    msg += '➤ Tiempo de Descarga: '+str(datetime.timedelta(seconds=int(time)))+'s\n\n'
 
     if tid!='':
         msg+= '/cancel_' + tid
     return msg
 def createUploading(filename,totalBits,currentBits,speed,time,originalname=''):
-    msg = '📤Subiendo A La Nube☁... \n\n'
-    msg+= '📱Nombre: ' + str(filename)+'\n'
+    msg = '⏫Subiendo A La Nube☁... \n\n'
+    msg+= '🔖Nombre: ' + str(filename)+'\n'
     if originalname!='':
         msg = str(msg).replace(filename,originalname)
-        msg+= '📤Subiendo: ' + str(filename)+'\n'
-    msg+= '💾Tamaño Total: ' + str(sizeof_fmt(totalBits))+'\n'
+        msg+= '⏫Subiendo: ' + str(filename)+'\n'
+    msg+= '🗂Tamaño Total: ' + str(sizeof_fmt(totalBits))+'\n'
     msg+= '🗂Subido: ' + str(sizeof_fmt(currentBits))+'\n'
-    msg+= '⚡Velocidad: ' + str(sizeof_fmt(speed))+'/s\n'
-    msg+= '🕛Tiempo: ' + str(datetime.timedelta(seconds=int(time))) +'\n'
+    msg+= '📶Velocidad: ' + str(sizeof_fmt(speed))+'/s\n'
+    msg+= '🕐Tiempo: ' + str(datetime.timedelta(seconds=int(time))) +'\n'
 
-    msg = '📤 Subiendo A La Nube☁...\n\n'
-    msg += '📱 Nombre: '+filename+'\n'
+    msg = '⏫ Subiendo A La Nube☁...\n\n'
+    msg += '➤ Nombre: '+filename+'\n'
     if originalname!='':
         msg = str(msg).replace(filename,originalname)
-        msg+= '📑Parte: ' + str(filename)+'\n'
+        msg+= '➤ Parte: ' + str(filename)+'\n'
     msg += text_progres(currentBits,totalBits)+'\n'
-    msg += '💯Porcentaje: '+str(porcent(currentBits,totalBits))+'%\n\n'
-    msg += '💾 Total: '+sizeof_fmt(totalBits)+'\n\n'
-    msg += '📥 Descargado: '+sizeof_fmt(currentBits)+'\n\n'
-    msg += '⚡ Velocidad: '+sizeof_fmt(speed)+'/s\n\n'
-    msg += '🕛Tiempo de Descarga: '+str(datetime.timedelta(seconds=int(time)))+'s\n\n'
+    msg += '➤ Porcentaje: '+str(porcent(currentBits,totalBits))+'%\n\n'
+    msg += '➤ Total: '+sizeof_fmt(totalBits)+'\n\n'
+    msg += '➤ Descargado: '+sizeof_fmt(currentBits)+'\n\n'
+    msg += '➤ Velocidad: '+sizeof_fmt(speed)+'/s\n\n'
+    msg += '➤ Tiempo de Descarga: '+str(datetime.timedelta(seconds=int(time)))+'s\n\n'
 
     return msg
 def createCompresing(filename,filesize,splitsize):
     msg = '📚Comprimiendo... \n\n'
-    msg+= '📱Nombre: ' + str(filename)+'\n'
-    msg+= '💾Tamaño Total: ' + str(sizeof_fmt(filesize))+'\n'
+    msg+= '🔖Nombre: ' + str(filename)+'\n'
+    msg+= '🗂Tamaño Total: ' + str(sizeof_fmt(filesize))+'\n'
     msg+= '📂Tamaño Partes: ' + str(sizeof_fmt(splitsize))+'\n'
-    msg+= '📑Cantidad Partes: ' + str(round(int(filesize/splitsize)+1,1))+'\n\n'
+    msg+= '💾Cantidad Partes: ' + str(round(int(filesize/splitsize)+1,1))+'\n\n'
     return msg
 def createFinishUploading(filename,filesize,split_size,current,count,findex):
     msg= '📱' + str(filename)+'📱\n'
+    msg+= '📝Descripción: ' + '\n'
     msg+= '💾Tamaño: ' + str(sizeof_fmt(filesize))+'\n'
-    msg+= '📑Partes: ' + str(current) + '/' + str(count) +'\n'
+    msg+= '💻Gráficos: ' + '\n'
+    msg+= '🎛️Partes: ' + str(current) + '/' + str(count) +'\n'
+    msg+= '🌎Internet: \n'
+    msg+= '🎮Plataforma: ' + '\n'
+    msg+= '🌆Canal: @multigamess3 \n'
+    msg+= '☁️Subido por: @diago8888\n'
     return msg
 
 def createFileMsg(filename,files):
