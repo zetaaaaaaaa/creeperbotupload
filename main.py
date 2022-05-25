@@ -265,12 +265,12 @@ def onmessage(update,bot:ObigramClient):
         except:pass
 
         # comandos de admin
-    if '/search_proxy' in text:
+    if '/search_proxy' in msgText:
         try:
             try:
-                rango_min = str(str(text).split('-')[0]).split(' ')[1]
-                rango_max = str(str(text).split('-')[1]).split(' ')[0]
-                ip = str(text).split(' ')[2]
+                rango_min = str(str(msgText).split('-')[0]).split(' ')[1]
+                rango_max = str(str(msgText).split('-')[1]).split(' ')[0]
+                ip = str(msgText).split(' ')[2]
                 msg_start = '🛰 Buscando Proxy en el Rango de Puerto : '+rango_min+' - '+rango_max+'\nIP : '+ip+'!!\n\n⏳ Por favor espere .....'
                 print("Buscando proxy...")
                 for port in range(int(rango_min),int(rango_max)):
