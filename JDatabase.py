@@ -30,7 +30,7 @@ class JsonDatabase(object):
         self.items[name] = {'dir': '',
                      'cloudtype': 'moodle',
                      'moodle_host': '---',
-                     'moodle_repo_id': 4,
+                     'moodle_repo_id': 3,
                      'moodle_user': '---',
                      'moodle_password': '---',
                      'isadmin': 0,
